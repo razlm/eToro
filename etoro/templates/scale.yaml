@@ -1,0 +1,25 @@
+#apiVersion: keda.sh/v1alpha1
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+  name: scaledobjectfg
+  namespace: raz
+spec:
+  scaleTargetRef:
+    deploymentName: etoro
+    name: etoro
+  triggers:
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: "50"
+  - type: memory
+    metadata:
+      type: Utilization
+      value: "50"
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: 0 11 * * *
+      end: 0 15 * * *
+      desiredReplicas: "10"

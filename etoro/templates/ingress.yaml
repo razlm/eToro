@@ -1,23 +1,22 @@
-{{ $fullName := include "etoro.fullname" . }}
-{{ $port := .Values.service.port }}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
-metadate:
-  name: {{ include "etoro.fullname" . }}
-  labels:
-    {{ include "etoro.labels" . | nindent 4 }}
-  {{ with .Values.ingress.annotations }}
+metadata:
+  name: minimal-ingress
   annotations:
-    {{ toYaml . | nindent 4 }}
-  {{ end }}
-  spec:
-    rules: 
-      {{ range .Values.ingress.hosts }}
-        - host: {{ .host | quote }}
-          http:
-            paths:
-              - path: {{ .path }}
-                backend:
-                  serviceName: {{ $fullName }}
-                  servicePort: {{ $port }}
-      {{ end }}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: k8s.example.com
+      kind: StorageBucket
+      name: static-assets
+  rules:
+  - http:
+      paths:
+      - path: /raz
+        pathType: Prefix
+        backend:
+          service:
+            name: etoro
+            port:
+              number: 80
