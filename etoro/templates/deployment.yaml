@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadeta:
+  name: {{ include "etoro.fullname" . }}
+  labels: |-
+    {{ include "etoro.labels" . | nindent 4 }}
+  spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+      matchLabels: |-
+        {{ include "etoro.selectorLabels" . | nindent 6 }}
+    template:
+      metadata:
+        labels: |-
+          {{ include "etoro.selectorLabels" . | nindent 6 }}
+      spec:
+         containers: |-
+           - name: {{ .Chart.Name }}
+             image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+             imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+             ports: |-
+               - name: http
+                 containerPort: {{ .Values.service.targetPort }}
+                 protocol: TCP
+             resources: |-
+               {{ toYaml .Values.resources | nindent 12 }}
