@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        LS = "${sh(script:'ll flag', returnStdout: true).trim()}"
+        LS = "${sh(script:'ls flag', returnStdout: true).trim()}"
     }
 
     stages {
