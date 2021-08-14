@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage("Env Variables") {
             steps {
-                sh pwd
+                sh 'pwd'
                 echo "LS = ${env.LS}" 
             }
         }
