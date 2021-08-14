@@ -9,7 +9,7 @@ pipeline {
         stage("Check if 'etoro' helm chars is running") {
             steps {
                script {
-                   if (env.LS = 'deployed') {
+                   if (env.LS == 'deployed') {
                        echo "eToro helm chart is running"
                    }
                    else {
@@ -21,7 +21,7 @@ pipeline {
         stage("Deploy/Destroy") {
             steps {
                script {
-                   if (env.LS = 'deployed') {
+                   if (env.LS == 'deployed') {
                        echo "Destroying helm chart"
                        sh "helm delete etoro"
                    }
