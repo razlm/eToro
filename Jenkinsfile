@@ -6,9 +6,13 @@ pipeline {
     }
 
     stages {
-        stage("Env Variables") {
+        stage("Check if pod are up") {
             steps {
                 sh 'pwd'
+            }
+        }
+        stage("Env Variables") {
+            steps {
                 echo "LS = ${env.LS}" 
             }
         }
