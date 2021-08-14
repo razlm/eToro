@@ -2,18 +2,13 @@ pipeline {
     agent any
 
     environment {
-        LS = "${sh(script:'cat flag', returnStdout: true).trim()}"
+        LS = "${sh(script:'helm status etoro | grep STATUS | cut -c 9-', returnStdout: true).trim()}"
     }
 
     stages {
-        stage("Check if pod are up") {
-            steps {
-                sh 'pwd'
-            }
-        }
         stage("Env Variables") {
             steps {
-                echo "LS = ${env.LS}" 
+                    echo "LS = ${env.LS}" 
             }
         }
     }
